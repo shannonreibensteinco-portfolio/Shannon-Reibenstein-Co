@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Direction Reference — Shannon Reibenstein Co.</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#FEFCF8;overflow-x:hidden}
+    ::-webkit-scrollbar{width:3px}
+    ::-webkit-scrollbar-track{background:#FEFCF8}
+    ::-webkit-scrollbar-thumb{background:#FC19E5}
+    button{font-family:inherit}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const {useState, useEffect, useRef} = React;
+
+// ─── Color system — light theme ─────────────────────────────────────────────
+const C = {
+  pageBg:      "#FEFCF8",
+  cardBg:      "#f5eef8",
+  cardBg2:     "#ede8f4",
+  primaryText: "#1F1B16",
+  bodyText:    "#2F364C",
+  mutedText:   "#532263",
+  magenta:     "#FC19E5",
+  magentaSoft: "#fe66c4",
+  magentaDeep: "#9e1460",
+  deepNavy:    "#04316C",
+  deepPurple:  "#532263",
+  darkPurple:  "#6C0465",
+  warmWhite:   "#FDFDFD",
+  divider:     "#2F364C22",
+};
+
+// ─── Movement data ───────────────────────────────────────────────────────────
+const MOVEMENTS = {
+  constructivism: {
+    name: "Constructivism",
+    era: "Russia, 1920s",
+    accentColor: "#E8180A",
+    accentText:  "#FEFCF8",
+    figureheads: "Rodchenko, Lissitzky, early Bauhaus",
+    core: "Structure as beauty. The belief that visual power comes from honest form — diagonal energy, bold geometry, type as force rather than decoration.",
+    feels: ["Forward momentum", "Inevitable", "Built to move", "Politically aware"],
+    brands: ["Nike", "Adidas originals", "Red Bull early era"],
+    notFor: "Brands that need to feel warm, approachable, or personal.",
+    visual: ["Diagonal composition", "Red, black, white palette", "Bold condensed type", "Geometric shapes as actors", "High contrast"],
+    hybrids: ["constructivism+editorial", "constructivism+bauhaus"],
+    influences: [
+      { artist: "Alexander Rodchenko", work: "Books! poster, 1924", type: "Poster", note: "The diagonal composition and bold red became the grammar of Constructivist design. Type and image as a single force." },
+      { artist: "El Lissitzky", work: "Beat the Whites with the Red Wedge, 1919", type: "Poster", note: "Pure geometric abstraction in service of a message. The wedge is argument, not decoration." },
+      { artist: "Varvara Stepanova", work: "Sports clothing designs, 1923", type: "Textile/Fashion", note: "Constructivism applied to the body — geometric pattern as cultural statement." },
+      { artist: "Herbert Bayer", work: "Universal typeface, 1925", type: "Typography", note: "Type stripped to geometric essentials. Every curve and angle justified. No ornament survives." },
+      { artist: "László Moholy-Nagy", work: "Bauhaus books cover series, 1923", type: "Book design", note: "Photography and typography as equal elements in a dynamic composition. The machine aesthetic with human purpose." },
+    ],
+    applicationNotes: "Works best for brands with genuine forward momentum — advocacy organizations, challenger brands, performance products. The diagonal and the bold are not decoration, they are argument. Use when the brand has something to say and isn't apologizing for saying it.",
+    caseStudy: null,
+  },
+
+  destijl: {
+    name: "De Stijl / Suprematism",
+    era: "Netherlands / Russia, 1917–1930s",
+    accentColor: "#04316C",
+    accentText:  "#FEFCF8",
+    figureheads: "Mondrian, Van Doesburg, Malevich",
+    core: "Universal harmony through pure form. Reduction until only the essential remains. The confidence of someone who has thought about everything and arrived at simplicity.",
+    feels: ["Principled", "Architectural", "International authority", "Considered restraint"],
+    brands: ["Braun", "Apple (original)", "Herman Miller"],
+    notFor: "Brands that need personality, warmth, or cultural specificity.",
+    visual: ["Primary colors + black + white", "Horizontal / vertical only", "Grid as philosophy", "Maximum negative space", "Type as structure"],
+    hybrids: ["destijl+bauhaus", "destijl+editorial"],
+    influences: [
+      { artist: "Piet Mondrian", work: "Composition with Red, Yellow and Blue, 1921", type: "Painting", note: "The grid and primary colors as universal visual language. Not a style choice — a philosophical position." },
+      { artist: "Theo van Doesburg", work: "De Stijl journal covers, 1917–1931", type: "Publication design", note: "The movement's manifesto as visual object. Every issue an argument for the aesthetic it practiced." },
+      { artist: "Kazimir Malevich", work: "Black Square, 1915", type: "Painting", note: "The zero point. The most reduced statement possible. Everything after this is building back up from absolute form." },
+      { artist: "Gerrit Rietveld", work: "Red Blue Chair, 1923", type: "Product design", note: "De Stijl applied to the human body — the chair as painting you sit in. Form and function as a single decision." },
+      { artist: "Bart van der Leck", work: "Batavier Line poster, 1916", type: "Poster", note: "Where De Stijl meets commercial communication. Geometric reduction as premium signal." },
+    ],
+    applicationNotes: "For brands where the product or service is intrinsically complex and the visual identity needs to project mastery through simplicity. Financial services, precision technology, architecture, premium consumer goods. The restraint signals confidence. Use when the brand doesn't need to explain itself.",
+    caseStudy: null,
+  },
+
+  expressionism: {
+    name: "Expressionism",
+    era: "Germany / USA, 1905–1960s",
+    accentColor: "#6C0465",
+    accentText:  "#FEFCF8",
+    figureheads: "Kirchner, Nolde, de Kooning, Kline",
+    core: "Emotional truth over visual accuracy. Color used psychologically. Distortion in service of feeling. The interior life made visible.",
+    feels: ["Raw", "Emotionally present", "Unapologetic", "Searching"],
+    brands: ["Patagonia (activism)", "Glossier (early)", "A24 films"],
+    notFor: "Brands that need to project control, authority, or institutional trust.",
+    visual: ["Bold unexpected color", "Expressive mark-making", "Asymmetric energy", "Texture as emotion", "Unfinished as intentional"],
+    hybrids: ["expressionism+collage", "expressionism+editorial"],
+    influences: [
+      { artist: "Ernst Ludwig Kirchner", work: "Street, Berlin, 1913", type: "Painting", note: "Urban anxiety rendered in jagged color. The city as psychological experience. The distortion is the truth." },
+      { artist: "Emil Nolde", work: "Wildly Dancing Children, 1909", type: "Painting", note: "Color pushed past description into pure feeling. Not what the scene looks like — what it feels like to be in it." },
+      { artist: "Franz Kline", work: "Chief, 1950", type: "Painting", note: "Abstract Expressionism at its most architectural — the gesture as structure, black on white with absolute conviction." },
+      { artist: "Helen Frankenthaler", work: "Mountains and Sea, 1952", type: "Painting", note: "Color soaked into canvas — not applied but absorbed. The process is visible. The accident is kept." },
+      { artist: "Kathe Kollwitz", work: "War woodcut series, 1922", type: "Printmaking", note: "Expressionism in service of humanity. Distortion as empathy — you feel the weight of what the figures carry." },
+    ],
+    applicationNotes: "For brands where the emotional experience is the product. Wellness practices, mental health platforms, creative education, independent art and film. The rawness is not a bug — it signals authenticity. Avoid if the brand needs to project control or institutional authority.",
+    caseStudy: null,
+  },
+
+  collage: {
+    name: "Surrealist Collage",
+    era: "Europe / USA, 1920s–present",
+    accentColor: "#532263",
+    accentText:  "#FEFCF8",
+    figureheads: "Hannah Höch, Max Ernst, Romare Bearden",
+    core: "Meaning lives in the gap between two things that don't belong together. Cut, reassemble, juxtapose. The brain fills in the story.",
+    feels: ["Curious", "Slightly off-balance", "Human contradiction", "Unexpected depth"],
+    brands: ["The Passive Rebel", "McSweeney's", "Adult Swim"],
+    notFor: "Brands that need clarity, directness, or institutional credibility.",
+    visual: ["Unexpected image pairings", "Type over photography", "Scale disruption", "Found image elevated", "Narrative in fragments"],
+    hybrids: ["collage+editorial", "collage+expressionism", "collage+constructivism"],
+    influences: [
+      { artist: "Hannah Höch", work: "Cut with the Kitchen Knife Dada, 1919", type: "Photomontage", note: "The founding document of the aesthetic. Mass media imagery reassembled as cultural criticism. The cut is the argument." },
+      { artist: "Max Ernst", work: "Une Semaine de Bonté, 1934", type: "Collage novel", note: "Victorian engravings combined into dreamlike narratives. The familiar made strange. The strange made logical." },
+      { artist: "Romare Bearden", work: "The Prevalence of Ritual series, 1964", type: "Collage", note: "Black American experience assembled from found imagery — jazz, migration, community. Collage as cultural memory." },
+      { artist: "Joseph Cornell", work: "Untitled (Soap Bubble Set), 1936", type: "Box assemblage", note: "Found objects in precise relationship. Each box a small world. The juxtaposition creates a new kind of meaning that neither object held alone." },
+      { artist: "Barbara Kruger", work: "Untitled (Your Body is a Battleground), 1989", type: "Photomontage", note: "Image and text as confrontation. The collage aesthetic stripped to maximum force." },
+    ],
+    applicationNotes: "For brands built on the philosophy of unexpected combination — creative agencies, educational platforms, cultural institutions, brands whose audience holds complexity comfortably. Works beautifully for personal brands where the individual is the product. Shannon Reibenstein Co. is this aesthetic.",
+    caseStudy: null,
+  },
+
+  artepovera: {
+    name: "Arte Povera",
+    era: "Italy, 1960s–present",
+    accentColor: "#2F364C",
+    accentText:  "#FEFCF8",
+    figureheads: "Jannis Kounellis, Mario Merz, Michelangelo Pistoletto",
+    core: "Everyday materials elevated. Anti-luxury as the most sophisticated position. The beauty of the overlooked. Visible craft as integrity.",
+    feels: ["Rare", "Grounded", "Anti-performative", "Trustworthy"],
+    brands: ["Patagonia", "Fjällräven", "Aesop"],
+    notFor: "Brands that need scale, boldness, or aspirational energy.",
+    visual: ["Natural textures", "Muted earthy palette", "Generous space", "Imperfection as intentional", "Material honesty"],
+    hybrids: ["artepovera+editorial", "artepovera+bauhaus"],
+    influences: [
+      { artist: "Jannis Kounellis", work: "Untitled (12 Horses), 1969", type: "Installation", note: "Live horses in a gallery. The most ordinary thing made monumental by context and attention. Arte Povera in its purest form." },
+      { artist: "Mario Merz", work: "Igloo series, 1968–present", type: "Sculpture", note: "Humble materials — steel, neon, mud — assembled into shelter. The beauty of the made thing without pretense." },
+      { artist: "Michelangelo Pistoletto", work: "Venus of the Rags, 1967", type: "Sculpture", note: "Classical beauty confronting everyday waste. The juxtaposition elevates both — the rags become meaningful, the statue becomes real." },
+      { artist: "Giuseppe Penone", work: "Tree of 12 Metres, 1980–82", type: "Sculpture", note: "An industrial beam carved to reveal the tree inside it. The found material contains its own history. Craft as excavation." },
+      { artist: "Alighiero Boetti", work: "Mappa series, 1971–1994", type: "Textile", note: "World maps embroidered by Afghan artisans over years. The labor is the work. Time and craft made visible." },
+    ],
+    applicationNotes: "For brands whose integrity is their product. Sustainable goods, artisan food and beverage, independent publishing, therapeutic practices. The visual restraint is the luxury signal — everything is here because it belongs, nothing is here to impress. Aesop built an empire on this.",
+    caseStudy: null,
+  },
+
+  editorial: {
+    name: "Editorial Modernism",
+    era: "USA, 1940s–present",
+    accentColor: "#1F1B16",
+    accentText:  "#FEFCF8",
+    figureheads: "Alexey Brodovitch, Cipe Pineles, Henry Wolf",
+    core: "The art director as author. White space as rhetoric. Typography and image in genuine conversation — not decoration of each other but dialogue.",
+    feels: ["Sophisticated", "Unhurried", "Rare but accessible", "Visually literate"],
+    brands: ["New Yorker", "Kinfolk", "Shannon Reibenstein Co."],
+    notFor: "Brands that need urgency, volume, or aggressive energy.",
+    visual: ["Type and image in tension", "White space as meaning", "Serif elegance", "Compositional restraint", "Photography as atmosphere"],
+    hybrids: ["editorial+collage", "editorial+constructivism", "editorial+artepovera"],
+    influences: [
+      { artist: "Alexey Brodovitch", work: "Harper's Bazaar spreads, 1934–1958", type: "Magazine design", note: "The white page as a stage. Typography and photography in choreographed relationship. The art director who invented modern magazine design." },
+      { artist: "Cipe Pineles", work: "Seventeen magazine, 1947–1950", type: "Magazine design", note: "The first solo female art director at a major American magazine. Illustration and photography treated as equal to writing. Design as editorial voice." },
+      { artist: "Henry Wolf", work: "Esquire / Show magazine, 1952–1962", type: "Magazine design", note: "Cover as cultural statement. The photograph and the type as co-authors of meaning. No wasted frame." },
+      { artist: "Massimo Vignelli", work: "NYC Subway map, 1972", type: "Information design", note: "Editorial intelligence applied to wayfinding. The grid as a form of care. The map that was too beautiful to be practical." },
+      { artist: "Paul Rand", work: "IBM / ABC / UPS logos + Thoughts on Design, 1947", type: "Identity / Writing", note: "The designer as theorist. Rand didn't just make things — he explained why form and function were the same decision." },
+    ],
+    applicationNotes: "The default aesthetic for sophisticated service businesses — strategy consultants, brand agencies, financial advisors, lawyers, anyone whose product is expertise and whose visual identity needs to project considered intelligence. Also the right choice for personal brands where the individual's point of view is the product.",
+    caseStudy: null,
+  },
+
+  popart: {
+    name: "Pop Art",
+    era: "USA / UK, 1950s–1970s",
+    accentColor: "#E8C317",
+    accentText:  "#1F1B16",
+    figureheads: "Warhol, Lichtenstein, Hamilton",
+    core: "Mass culture as subject. Repetition as commentary. The ironic gap between surface and meaning. Consumer culture that winks at itself.",
+    feels: ["Irreverent", "Self-aware", "High energy", "Culturally fluent"],
+    brands: ["Liquid Death", "Supreme", "Balenciaga"],
+    notFor: "Brands that need sincerity, warmth, or long-form trust.",
+    visual: ["Saturated flat color", "Ben-Day dots / halftone", "Repetition as device", "Found commercial imagery", "High contrast outlines"],
+    hybrids: ["popart+constructivism", "popart+collage"],
+    influences: [
+      { artist: "Andy Warhol", work: "Campbell's Soup Cans, 1962", type: "Painting/Silkscreen", note: "The commercial object as fine art subject. Repetition until meaning dissolves and reforms as commentary. The gap between what it is and how it's presented — that gap is the work." },
+      { artist: "Roy Lichtenstein", work: "Whaam!, 1963", type: "Painting", note: "Comic book vernacular elevated to monumental scale. The Ben-Day dot is the medium — industrial reproduction made precious." },
+      { artist: "Richard Hamilton", work: "Just What Is It that Makes Today's Homes so Different, so Appealing?, 1956", type: "Collage", note: "The founding document of Pop Art. Consumer culture assembled into its own critique." },
+      { artist: "Corita Kent", work: "Enriched Bread series, 1962", type: "Silkscreen", note: "Commercial packaging as spiritual text. Pop Art with a conscience — the supermarket aisle as sacred space." },
+      { artist: "James Rosenquist", work: "F-111, 1964–65", type: "Painting", note: "Advertising imagery at architectural scale. The billboard aesthetic pushed until it becomes critical of itself." },
+    ],
+    applicationNotes: "For brands that are in on the joke — challenger brands, D2C consumer goods with cultural ambitions, anything in the food and beverage space that wants to subvert category conventions. Liquid Death is the perfect contemporary example. The irony must be genuine, not performed.",
+    caseStudy: null,
+  },
+
+  fluxus: {
+    name: "Fluxus / Neo-Dada",
+    era: "USA / Europe, 1960s–present",
+    accentColor: "#FC19E5",
+    accentText:  "#FEFCF8",
+    figureheads: "John Cage, Yoko Ono, Rauschenberg",
+    core: "Art as event, instruction, interruption. Attention itself is the medium. The scroll as canvas. The unexpected as the only reliable hook.",
+    feels: ["This shouldn't work but does", "Makes me stop", "Productively uncomfortable", "Like being in on something"],
+    brands: ["Oatly", "Cards Against Humanity", "Early Dollar Shave Club"],
+    notFor: "Brands that need institutional authority or sustained narrative depth.",
+    visual: ["Rule-breaking as rule", "Text as performance", "Instruction as form", "The anti-design design", "Humor as strategy"],
+    hybrids: ["fluxus+popart", "fluxus+collage"],
+    influences: [
+      { artist: "John Cage", work: "4'33\", 1952", type: "Music / Concept", note: "The silence between sounds as the work. Attention redirected to what was always there. Every Fluxus provocation descends from this gesture." },
+      { artist: "Yoko Ono", work: "Grapefruit instruction book, 1964", type: "Artist book", note: "Instructions for impossible or absurd actions as art. The imagination activated, not the hand. Pure Fluxus logic." },
+      { artist: "Robert Rauschenberg", work: "Erased de Kooning Drawing, 1953", type: "Concept / Drawing", note: "Erasure as creation. The gesture that says: the rules of what counts as art are negotiable." },
+      { artist: "George Maciunas", work: "Fluxus manifesto and event scores, 1963", type: "Typography / Manifesto", note: "The movement as graphic object. The manifesto printed in deliberately confrontational type. Design as disruption." },
+      { artist: "Piero Manzoni", work: "Artist's Shit, 1961", type: "Concept / Object", note: "The most radical test of the premise: if the artist names it, is it art? The tin can as philosophical provocation. Uncomfortable and impossible to ignore." },
+    ],
+    applicationNotes: "For brands in the attention economy that want to treat the scroll as a canvas. Content-first businesses, newsletters, independent media, consumer brands willing to be genuinely weird. The rule is that the rule-breaking must be strategic — chaos for the sake of chaos is not Fluxus, it's noise. Oatly's oat milk packaging is the most perfect contemporary application.",
+    caseStudy: null,
+  },
+
+  bauhaus: {
+    name: "Bauhaus",
+    era: "Germany, 1919–1933",
+    accentColor: "#04316C",
+    accentText:  "#FEFCF8",
+    figureheads: "Gropius, Klee, Kandinsky, Moholy-Nagy",
+    core: "The marriage of fine art and functional craft. Form follows function — but function can be beautiful. Every discipline unified under one creative philosophy.",
+    feels: ["Built to last", "Craft is visible", "Nothing accidental", "Complete"],
+    brands: ["IKEA (original vision)", "Braun", "Vitsœ"],
+    notFor: "Brands that need emotional spontaneity or cultural provocation.",
+    visual: ["Geometry with purpose", "Primary palette", "Typography as architecture", "Visible construction", "Material integrity"],
+    hybrids: ["bauhaus+editorial", "bauhaus+constructivism", "bauhaus+destijl"],
+    influences: [
+      { artist: "Herbert Bayer", work: "Bauhaus exhibition poster, 1923", type: "Poster", note: "Typography and geometry in complete harmony. Every element serves the communication. Nothing decorative that isn't also functional." },
+      { artist: "Marcel Breuer", work: "Wassily Chair, 1925", type: "Furniture design", note: "The tubular steel chair as Bauhaus thesis: industrial material, geometric form, human function. The most beautiful solution to sitting." },
+      { artist: "László Moholy-Nagy", work: "Light-Space Modulator, 1922–30", type: "Kinetic sculpture", note: "The Bauhaus belief that art, craft, and technology were the same investigation. Light as material, movement as form." },
+      { artist: "Joost Schmidt", work: "Bauhaus Ausstellung poster, 1923", type: "Poster", note: "The circle, the square, the triangle arranged in service of information. Geometric visual language as universal communication." },
+      { artist: "Paul Klee", work: "Bauhaus pedagogy — Pedagogical Sketchbook, 1925", type: "Theory / Drawing", note: "Klee teaching at the Bauhaus — the line as living thing, the point as the beginning of all form. Design as understood from first principles." },
+    ],
+    applicationNotes: "For brands building something meant to endure. Architecture firms, premium product companies, educational institutions, any brand where the quality of thinking is as important as the quality of making. The Bauhaus visual language says: we understand why every decision was made. Use when the craft needs to be visible.",
+    caseStudy: null,
+  },
+};
+
+const HYBRIDS = {
+  "constructivism+editorial": { name: "Constructivist Editorial", desc: "Forward momentum with restraint. Bold type and diagonal energy disciplined by white space and compositional intention." },
+  "collage+editorial": { name: "Editorial Collage", desc: "The art director who cuts things up. Unexpected image pairings inside a rigorous compositional framework." },
+  "constructivism+bauhaus": { name: "Structural Modernism", desc: "Pure form with maximum intention. Every element load-bearing." },
+  "expressionism+collage": { name: "Emotional Collage", desc: "Feeling expressed through fragmentation. Cut-up reality reassembled around an emotional truth." },
+  "popart+collage": { name: "Cultural Collage", desc: "Mass imagery deconstructed and reassembled with irony and genuine love." },
+  "artepovera+editorial": { name: "Quiet Luxury", desc: "Restraint elevated to philosophy. Natural materials, considered space, nothing loud." },
+  "bauhaus+editorial": { name: "Functional Elegance", desc: "The discipline of construction meets the rhetoric of white space." },
+  "fluxus+collage": { name: "Possibilitarian", desc: "Two ideas that have no business standing in the same room. The productive discomfort of the unexpected juxtaposition." },
+  "destijl+editorial": { name: "Principled Editorial", desc: "The reduction of De Stijl inside the compositional intelligence of editorial design." },
+  "popart+constructivism": { name: "Cultural Force", desc: "The energy of mass culture channeled through the structure of political design." },
+  "expressionism+editorial": { name: "Emotional Modernism", desc: "The interior life expressed through rigorous composition. Feeling disciplined by form." },
+  "artepovera+bauhaus": { name: "Craft Modernism", desc: "Material honesty meets formal intention. The hand and the grid as equal partners." },
+  "fluxus+popart": { name: "Cultural Interruption", desc: "Irony and disruption as a unified strategy. Consumer culture turned inside out." },
+  "destijl+bauhaus": { name: "Pure Function", desc: "The most reduced expression of resolved form. Nothing survives that doesn't need to be there." },
+};
+
+const QUESTIONS = [
+  {
+    id: "q1",
+    question: "What do you want someone to feel in the first three seconds?",
+    sub: "Before they've read a word. Trust your gut.",
+    options: [
+      { label: "Power. Inevitability. Like this was always going to exist.", value: "q1_power" },
+      { label: "Like they found something rare. Specific. Not mass-produced.", value: "q1_rare" },
+      { label: "Something they can't immediately name — curiosity, unease, wonder.", value: "q1_unnamed" },
+      { label: "Like the whole category is being questioned.", value: "q1_questioned" },
+      { label: "Built to last. Nothing accidental. Craft is visible.", value: "q1_lasting" },
+    ],
+  },
+  {
+    id: "q2_power",
+    question: "Your brand has forward momentum. Is it also warm?",
+    sub: "Do you want people to feel invited in, or confronted?",
+    options: [
+      { label: "Confronted — in the best way. Bold, structural, no softening.", value: "constructivism" },
+      { label: "Both — structured energy but there's a human inside it.", value: "constructivism+editorial" },
+      { label: "More cultural commentary than pure structure.", value: "popart+constructivism" },
+    ],
+  },
+  {
+    id: "q2_rare",
+    question: "What kind of rare?",
+    sub: "There are different flavors of rare.",
+    options: [
+      { label: "The quiet kind. Considered. Unhurried. Visually intelligent.", value: "editorial" },
+      { label: "The material kind. Everyday things elevated. Visible craft.", value: "artepovera" },
+      { label: "Both — sophisticated but grounded.", value: "artepovera+editorial" },
+    ],
+  },
+  {
+    id: "q2_unnamed",
+    question: "Where does the feeling come from?",
+    sub: "The unnamed feeling has different sources.",
+    options: [
+      { label: "The gap between two images that shouldn't coexist.", value: "collage" },
+      { label: "Raw emotional truth — color and form before logic.", value: "expressionism" },
+      { label: "Both — emotional and fragmented.", value: "expressionism+collage" },
+      { label: "Editorial sophistication with strange undercurrents.", value: "collage+editorial" },
+    ],
+  },
+  {
+    id: "q2_questioned",
+    question: "How does your brand question the category?",
+    sub: "Provocation takes different forms.",
+    options: [
+      { label: "With irony and cultural fluency. We're winking.", value: "popart" },
+      { label: "With interruption. We make attention stop in unexpected ways.", value: "fluxus" },
+      { label: "Both — funny and disruptive.", value: "fluxus+popart" },
+      { label: "Through juxtaposition — two things that don't belong together.", value: "fluxus+collage" },
+    ],
+  },
+  {
+    id: "q2_lasting",
+    question: "What kind of lasting?",
+    sub: "Built to last is a philosophy, not just an aesthetic.",
+    options: [
+      { label: "Functional beauty. Form and craft unified. Nothing decorative.", value: "bauhaus" },
+      { label: "Pure geometric reduction. Universal form. Maximum principle.", value: "destijl" },
+      { label: "Functional elegance — the craft visible but refined.", value: "bauhaus+editorial" },
+      { label: "Structural and principled but with compositional intelligence.", value: "destijl+editorial" },
+    ],
+  },
+];
+
+// ─── Shared components ───────────────────────────────────────────────────────
+function useInView(t = 0.1) {
+  const ref = useRef(null);
+  const [v, setV] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold: t });
+    if (ref.current) o.observe(ref.current);
+    return () => o.disconnect();
+  }, []);
+  return [ref, v];
+}
+
+function FadeIn({ children, delay = 0, style = {} }) {
+  const [ref, v] = useInView();
+  return (
+    <div ref={ref} style={{ opacity: v ? 1 : 0, transform: v ? "none" : "translateY(20px)", transition: `opacity .7s ease ${delay}s, transform .7s ease ${delay}s`, ...style }}>
+      {children}
+    </div>
+  );
+}
+
+function Tag({ children, color = C.magentaDeep }) {
+  return (
+    <span style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color, border: `1px solid ${color}44`, padding: "0.25rem 0.7rem" }}>
+      {children}
+    </span>
+  );
+}
+
+// ─── Movement detail page ────────────────────────────────────────────────────
+function MovementPage({ id, onBack, onNavigate }) {
+  const m = MOVEMENTS[id];
+  const isHybrid = !m;
+  const h = isHybrid ? HYBRIDS[id] : null;
+
+  useEffect(() => { window.scrollTo(0, 0); }, [id]);
+
+  if (isHybrid && h) {
+    return (
+      <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", padding: "6rem 4rem" }}>
+          <button onClick={onBack} style={{ fontFamily: "Georgia, serif", fontSize: "0.8rem", fontStyle: "italic", color: C.bodyText, background: "transparent", border: "none", cursor: "pointer", marginBottom: "3rem", padding: 0 }}>← Back to tree</button>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase", color: C.magentaDeep, marginBottom: "1rem" }}>Hybrid Influence</div>
+          <h1 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(2.5rem,5vw,5rem)", textTransform: "uppercase", color: C.primaryText, lineHeight: 0.92, margin: "0 0 2rem 0" }}>{h.name}</h1>
+          <p style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", lineHeight: 1.8, color: C.bodyText, borderLeft: `3px solid ${C.magenta}`, paddingLeft: "1.5rem" }}>{h.desc}</p>
+          <p style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: C.bodyText, marginTop: "3rem" }}>This is a hybrid of two movements. Explore each parent movement for deeper context.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!m) return null;
+
+  return (
+    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+
+      {/* Hero */}
+      <div style={{ background: m.accentColor, padding: "6rem 4rem 4rem", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", right: "-2rem", bottom: "-4rem", fontFamily: "'Anton', Impact, sans-serif", fontSize: "24vw", color: "rgba(255,255,255,0.07)", lineHeight: 1, userSelect: "none" }}>{m.name[0]}</div>
+        <div style={{ maxWidth: "1000px", margin: "0 auto", position: "relative", zIndex: 2 }}>
+          <button onClick={onBack}
+            style={{ fontFamily: "Georgia, serif", fontSize: "0.8rem", fontStyle: "italic", color: `${m.accentText}88`, background: "transparent", border: "none", cursor: "pointer", marginBottom: "3rem", padding: 0 }}>
+            ← Back
+          </button>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.2em", textTransform: "uppercase", color: `${m.accentText}88`, fontStyle: "italic", marginBottom: "1rem" }}>{m.era} · {m.figureheads}</div>
+          <h1 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(3rem,7vw,7rem)", textTransform: "uppercase", color: m.accentText, lineHeight: 0.9, margin: "0 0 2rem 0" }}>{m.name}</h1>
+          <p style={{ fontFamily: "Georgia, serif", fontSize: "1.15rem", lineHeight: 1.75, color: `${m.accentText}cc`, maxWidth: "680px", margin: 0 }}>{m.core}</p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "6rem 4rem" }}>
+
+        {/* Quick reference */}
+        <FadeIn>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "2px", background: C.divider, marginBottom: "6rem" }}>
+            {[
+              { label: "It feels like", items: m.feels },
+              { label: "Visual language", items: m.visual },
+              { label: "Brands doing this", items: m.brands },
+            ].map(({ label, items }) => (
+              <div key={label} style={{ background: C.cardBg, padding: "2rem" }}>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", letterSpacing: "0.15em", textTransform: "uppercase", color: C.magentaDeep, marginBottom: "1.2rem" }}>{label}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  {items.map(item => (
+                    <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem" }}>
+                      <div style={{ width: "4px", height: "4px", borderRadius: "50%", background: C.magenta, flexShrink: 0, marginTop: "0.45rem" }} />
+                      <span style={{ fontFamily: "Georgia, serif", fontSize: "0.88rem", color: C.primaryText, lineHeight: 1.5 }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        {/* Influences gallery */}
+        <FadeIn>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "3rem" }}>
+            <h2 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(1.8rem,3vw,2.8rem)", textTransform: "uppercase", color: C.primaryText, margin: 0, lineHeight: 0.95 }}>
+              Key Influences
+            </h2>
+            <div style={{ flex: 1, height: "1px", background: C.divider }} />
+          </div>
+          <p style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: C.bodyText, marginBottom: "3rem", maxWidth: "600px" }}>
+            Primary works and figureheads that define the movement's visual DNA. These are the reference points — not to copy, but to understand the underlying logic.
+          </p>
+        </FadeIn>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "2px", background: C.divider, marginBottom: "6rem" }}>
+          {m.influences.map((inf, i) => (
+            <FadeIn key={i} delay={i * 0.06}>
+              <div style={{ background: i % 2 === 0 ? C.pageBg : C.cardBg, padding: "2.5rem 3rem", display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "2.5rem", alignItems: "start" }}>
+                <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "2rem", color: `${m.accentColor}25`, lineHeight: 1, minWidth: "3rem", textAlign: "center" }}>{String(i + 1).padStart(2, "0")}</div>
+                <div>
+                  <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "1rem", textTransform: "uppercase", letterSpacing: "0.04em", color: C.primaryText, marginBottom: "0.2rem" }}>{inf.artist}</div>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "0.82rem", fontStyle: "italic", color: C.magentaDeep, marginBottom: "0.8rem" }}>{inf.work}</div>
+                  <p style={{ fontFamily: "Georgia, serif", fontSize: "0.92rem", lineHeight: 1.7, color: C.bodyText, margin: 0 }}>{inf.note}</p>
+                </div>
+                <Tag color={C.bodyText}>{inf.type}</Tag>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+
+        {/* Application notes */}
+        <FadeIn>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "2rem" }}>
+            <h2 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(1.8rem,3vw,2.8rem)", textTransform: "uppercase", color: C.primaryText, margin: 0, lineHeight: 0.95 }}>
+              Brand Application
+            </h2>
+            <div style={{ flex: 1, height: "1px", background: C.divider }} />
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
+          <div style={{ padding: "2.5rem 3rem", background: C.cardBg, borderLeft: `4px solid ${m.accentColor}`, marginBottom: "6rem" }}>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "1rem", lineHeight: 1.85, color: C.bodyText, margin: 0 }}>{m.applicationNotes}</p>
+          </div>
+        </FadeIn>
+
+        {/* Case study slot */}
+        <FadeIn>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "1.5rem", marginBottom: "2rem" }}>
+            <h2 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(1.8rem,3vw,2.8rem)", textTransform: "uppercase", color: C.primaryText, margin: 0, lineHeight: 0.95 }}>
+              Case Study
+            </h2>
+            <div style={{ flex: 1, height: "1px", background: C.divider }} />
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
+          {m.caseStudy ? (
+            <div style={{ padding: "3rem", background: C.cardBg2, borderLeft: `4px solid ${C.magenta}` }}>
+              <p style={{ fontFamily: "Georgia, serif", fontSize: "1rem", lineHeight: 1.85, color: C.bodyText }}>{m.caseStudy}</p>
+            </div>
+          ) : (
+            <div style={{ padding: "4rem 3rem", background: C.cardBg, borderLeft: `4px solid ${C.divider}`, textAlign: "center" }}>
+              <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "1.1rem", textTransform: "uppercase", letterSpacing: "0.08em", color: `${C.primaryText}33`, marginBottom: "0.8rem" }}>
+                Case Study Coming
+              </div>
+              <p style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: `${C.bodyText}66`, margin: 0 }}>
+                A real client application of this aesthetic direction will live here. Work in progress.
+              </p>
+            </div>
+          )}
+        </FadeIn>
+
+        {/* Not for */}
+        <FadeIn>
+          <div style={{ padding: "1.5rem 2rem", background: `${C.primaryText}06`, borderLeft: `2px solid ${C.divider}`, marginTop: "3rem" }}>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", letterSpacing: "0.15em", textTransform: "uppercase", color: `${C.bodyText}66`, marginBottom: "0.4rem" }}>Not for</div>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: `${C.bodyText}77`, margin: 0 }}>{m.notFor}</p>
+          </div>
+        </FadeIn>
+
+        {/* Hybrids */}
+        {m.hybrids && m.hybrids.length > 0 && (
+          <FadeIn>
+            <div style={{ marginTop: "4rem" }}>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase", color: C.magentaDeep, marginBottom: "1rem" }}>
+                Interesting hybrids
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
+                {m.hybrids.map(hid => {
+                  const hybrid = HYBRIDS[hid];
+                  return hybrid ? (
+                    <button key={hid} onClick={() => onNavigate(hid)}
+                      style={{ fontFamily: "Georgia, serif", fontSize: "0.82rem", fontStyle: "italic", color: C.magentaDeep, background: "transparent", border: `1px solid ${C.magentaDeep}44`, padding: "0.4rem 1rem", cursor: "pointer", transition: "all 0.2s" }}
+                      onMouseEnter={e => { e.target.style.background = `${C.magenta}10`; e.target.style.borderColor = C.magenta; e.target.style.color = C.magenta; }}
+                      onMouseLeave={e => { e.target.style.background = "transparent"; e.target.style.borderColor = `${C.magentaDeep}44`; e.target.style.color = C.magentaDeep; }}
+                    >{hybrid.name} →</button>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          </FadeIn>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Overview / index page ───────────────────────────────────────────────────
+function OverviewPage({ onNavigate }) {
+  const [hovered, setHovered] = useState(null);
+
+  return (
+    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+
+      {/* Hero */}
+      <div style={{ padding: "8rem 4rem 6rem", position: "relative", overflow: "hidden", borderBottom: `1px solid ${C.divider}` }}>
+        <div style={{ position: "absolute", right: "-2rem", bottom: "-5rem", fontFamily: "'Anton', Impact, sans-serif", fontSize: "26vw", color: `${C.magenta}06`, lineHeight: 1, userSelect: "none" }}>A</div>
+        <div style={{ maxWidth: "900px", position: "relative", zIndex: 2 }}>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.22em", textTransform: "uppercase", color: C.magentaDeep, fontStyle: "italic", marginBottom: "1.5rem" }}>Shannon Reibenstein Co.</div>
+          <h1 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(3rem,7vw,8rem)", lineHeight: 0.9, textTransform: "uppercase", color: C.primaryText, margin: "0 0 2.5rem 0" }}>
+            Art Direction<br /><span style={{ color: C.magenta }}>Reference</span>
+          </h1>
+          <p style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", lineHeight: 1.75, color: C.bodyText, maxWidth: "580px", borderLeft: `2px solid ${C.magenta}`, paddingLeft: "1.5rem", margin: "0 0 1.5rem 0" }}>
+            A working reference for art historical influences in brand design. Eight movements, their DNA, their logic, and how they apply to contemporary brand work.
+          </p>
+          <p style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: C.bodyText, maxWidth: "580px", paddingLeft: "1.5rem", borderLeft: `2px solid transparent` }}>
+            Click any movement to explore its influences, visual language, and brand application notes. Case studies are added as client work develops.
+          </p>
+        </div>
+      </div>
+
+      {/* Movement grid */}
+      <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "4rem" }}>
+
+        <div style={{ fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.2em", textTransform: "uppercase", color: C.magentaDeep, marginBottom: "2rem" }}>Pure Movements — click to explore</div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px", background: C.divider, marginBottom: "4rem" }}>
+          {Object.entries(MOVEMENTS).map(([id, m], i) => (
+            <FadeIn key={id} delay={i * 0.05}>
+              <div
+                onClick={() => onNavigate(id)}
+                onMouseEnter={() => setHovered(id)}
+                onMouseLeave={() => setHovered(null)}
+                style={{ cursor: "pointer", position: "relative", overflow: "hidden", minHeight: "280px", display: "flex", flexDirection: "column", transition: "transform 0.2s" }}
+              >
+                {/* Accent color header band */}
+                <div style={{ background: m.accentColor, padding: "1.5rem 2rem", transition: "padding 0.3s", paddingBottom: hovered === id ? "3rem" : "1.5rem" }}>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "0.62rem", letterSpacing: "0.15em", textTransform: "uppercase", color: `${m.accentText}77`, marginBottom: "0.4rem" }}>{m.era}</div>
+                  <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(1.2rem,2vw,1.6rem)", textTransform: "uppercase", color: m.accentText, lineHeight: 1 }}>{m.name}</div>
+                </div>
+
+                {/* Body */}
+                <div style={{ background: hovered === id ? C.cardBg : C.pageBg, padding: "1.5rem 2rem", flex: 1, transition: "background 0.25s", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  <p style={{ fontFamily: "Georgia, serif", fontSize: "0.82rem", lineHeight: 1.65, color: C.bodyText, margin: "0 0 1.5rem 0" }}>
+                    {m.core.substring(0, 100)}…
+                  </p>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.magentaDeep, fontStyle: "italic" }}>
+                      {m.figureheads.split(",")[0].trim()}
+                    </div>
+                    <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "0.8rem", letterSpacing: "0.1em", color: hovered === id ? C.magenta : `${C.bodyText}44`, transition: "color 0.2s" }}>
+                      Explore →
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+
+        {/* Hybrids */}
+        <div style={{ fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.2em", textTransform: "uppercase", color: C.magentaDeep, marginBottom: "2rem" }}>Hybrid Combinations</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: C.divider }}>
+          {Object.entries(HYBRIDS).map(([id, h], i) => (
+            <FadeIn key={id} delay={i * 0.04}>
+              <div
+                onClick={() => onNavigate(id)}
+                onMouseEnter={() => setHovered(id)}
+                onMouseLeave={() => setHovered(null)}
+                style={{ background: hovered === id ? C.cardBg2 : C.cardBg, padding: "2rem", cursor: "pointer", borderLeft: `3px solid ${hovered === id ? C.magenta : "transparent"}`, transition: "all 0.2s" }}
+              >
+                <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "1rem", textTransform: "uppercase", letterSpacing: "0.03em", color: hovered === id ? C.magenta : C.primaryText, marginBottom: "0.5rem", transition: "color 0.2s" }}>{h.name}</div>
+                <p style={{ fontFamily: "Georgia, serif", fontSize: "0.82rem", lineHeight: 1.6, color: C.bodyText, margin: 0 }}>{h.desc}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Decision tree ───────────────────────────────────────────────────────────
+function TreePage({ onNavigate }) {
+  const [answers, setAnswers] = useState({});
+  const [result, setResult] = useState(null);
+  const [history, setHistory] = useState(["q1"]);
+  const [hovered, setHovered] = useState(null);
+
+  const currentQ = QUESTIONS.find(q => q.id === history[history.length - 1]);
+  const progress = result ? 100 : Math.round(((history.length - 1) / 2) * 100);
+
+  const handleAnswer = (value) => {
+    setAnswers(a => ({ ...a, [currentQ.id]: value }));
+    const isMovement = MOVEMENTS[value] !== undefined;
+    const isHybrid = HYBRIDS[value] !== undefined;
+    if (isMovement || isHybrid) setResult(value);
+    else setHistory(h => [...h, value]);
+  };
+
+  const reset = () => { setAnswers({}); setResult(null); setHistory(["q1"]); };
+  const goBack = () => { if (result) setResult(null); else if (history.length > 1) setHistory(h => h.slice(0, -1)); };
+
+  return (
+    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "6rem 4rem" }}>
+
+        {/* Progress */}
+        <div style={{ marginBottom: "4rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.6rem" }}>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: C.bodyText, fontStyle: "italic" }}>Question {history.length} of 2</div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase", color: C.magentaDeep, fontStyle: "italic" }}>{progress}%</div>
+          </div>
+          <div style={{ width: "100%", height: "2px", background: `${C.magenta}20` }}>
+            <div style={{ width: `${progress}%`, height: "100%", background: C.magenta, transition: "width 0.5s ease" }} />
+          </div>
+        </div>
+
+        {result ? (
+          /* Result */
+          <div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", color: C.magentaDeep, fontStyle: "italic", marginBottom: "1.5rem" }}>Your Art Direction</div>
+            {(() => {
+              const m = MOVEMENTS[result];
+              const h = HYBRIDS[result];
+              return (
+                <div>
+                  <div style={{ background: m ? m.accentColor : C.cardBg2, padding: "3rem", marginBottom: "2rem" }}>
+                    <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(2.5rem,5vw,5rem)", textTransform: "uppercase", color: m ? m.accentText : C.primaryText, lineHeight: 0.9, marginBottom: "1rem" }}>
+                      {m ? m.name : h.name}
+                    </div>
+                    <p style={{ fontFamily: "Georgia, serif", fontSize: "1rem", lineHeight: 1.8, color: m ? `${m.accentText}cc` : C.bodyText, margin: 0 }}>
+                      {m ? m.core : h.desc}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                    {m && (
+                      <button onClick={() => onNavigate(result)}
+                        style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "0.9rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "1rem 2.5rem", background: C.magenta, color: C.primaryText, border: "none", cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s" }}
+                        onMouseEnter={e => { e.target.style.transform = "translate(-3px,-3px)"; e.target.style.boxShadow = `5px 5px 0 ${C.primaryText}`; }}
+                        onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "none"; }}
+                      >Explore {m.name} →</button>
+                    )}
+                    <button onClick={reset}
+                      style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", padding: "1rem 2rem", background: "transparent", color: C.bodyText, border: `1px solid ${C.bodyText}44`, cursor: "pointer" }}>
+                      Start Over
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        ) : currentQ ? (
+          /* Question */
+          <div>
+            <h2 style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "clamp(1.8rem,4vw,3.5rem)", textTransform: "uppercase", lineHeight: 0.95, color: C.primaryText, margin: "0 0 0.8rem 0" }}>
+              {currentQ.question}
+            </h2>
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: C.bodyText, margin: "0 0 3rem 0" }}>{currentQ.sub}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "3px", background: `${C.magenta}15` }}>
+              {currentQ.options.map((opt, i) => (
+                <button key={opt.value}
+                  onClick={() => handleAnswer(opt.value)}
+                  onMouseEnter={() => setHovered(opt.value)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1.8rem 2rem", background: hovered === opt.value ? `${C.magenta}10` : C.pageBg, border: "none", borderLeft: `3px solid ${hovered === opt.value ? C.magenta : "transparent"}`, cursor: "pointer", transition: "all 0.2s", textAlign: "left" }}
+                >
+                  <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "1.5rem", color: `${C.magenta}${hovered === opt.value ? "cc" : "33"}`, lineHeight: 1, minWidth: "2rem", textAlign: "center", transition: "color 0.2s" }}>
+                    {String.fromCharCode(65 + i)}
+                  </div>
+                  <span style={{ fontFamily: "Georgia, serif", fontSize: "1rem", lineHeight: 1.6, color: hovered === opt.value ? C.primaryText : C.bodyText, transition: "color 0.2s" }}>{opt.label}</span>
+                  <div style={{ marginLeft: "auto", opacity: hovered === opt.value ? 1 : 0, transition: "opacity 0.2s", color: C.magenta, fontSize: "1.1rem" }}>→</div>
+                </button>
+              ))}
+            </div>
+            {history.length > 1 && (
+              <button onClick={goBack} style={{ marginTop: "2rem", fontFamily: "Georgia, serif", fontSize: "0.82rem", fontStyle: "italic", color: C.bodyText, background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
+                ← Back
+              </button>
+            )}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+// ─── Root app with nav ────────────────────────────────────────────────────────
+function App() {
+  const [view, setView] = useState("overview"); // overview | tree | movement:{id}
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  const navigate = (id) => { setView(`movement:${id}`); };
+  const goBack = () => setView("overview");
+
+  const currentMovementId = view.startsWith("movement:") ? view.replace("movement:", "") : null;
+
+  return (
+    <div>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: ${C.pageBg}; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: ${C.pageBg}; }
+        ::-webkit-scrollbar-thumb { background: ${C.magenta}; }
+        button { font-family: inherit; }
+      `}</style>
+
+      {/* Sticky nav */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 100, padding: "1.2rem 4rem", display: "flex", justifyContent: "space-between", alignItems: "center", background: scrolled ? `${C.pageBg}f0` : C.pageBg, backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${C.divider}`, transition: "all 0.3s" }}>
+        <button onClick={() => setView("overview")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, textAlign: "left" }}>
+          <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "0.9rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.primaryText }}>Shannon Reibenstein Co.</div>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", fontStyle: "italic", color: C.magentaDeep, marginTop: "0.1rem" }}>Art Direction Reference</div>
+        </button>
+
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          {[
+            { label: "Overview", v: "overview" },
+            { label: "Decision Tree", v: "tree" },
+          ].map(({ label, v }) => (
+            <button key={v} onClick={() => setView(v)}
+              style={{ fontFamily: "Georgia, serif", fontSize: "0.8rem", fontStyle: "italic", padding: "0.5rem 1.2rem", background: view === v ? `${C.magenta}15` : "transparent", color: view === v ? C.magenta : C.bodyText, border: `1px solid ${view === v ? C.magenta : `${C.bodyText}33`}`, cursor: "pointer", transition: "all 0.2s" }}>
+              {label}
+            </button>
+          ))}
+          {currentMovementId && MOVEMENTS[currentMovementId] && (
+            <span style={{ fontFamily: "Georgia, serif", fontSize: "0.8rem", fontStyle: "italic", padding: "0.5rem 1.2rem", color: C.primaryText, border: `1px solid ${C.magenta}`, background: `${C.magenta}08` }}>
+              {MOVEMENTS[currentMovementId].name}
+            </span>
+          )}
+        </div>
+      </nav>
+
+      {/* Content */}
+      {view === "overview" && <OverviewPage onNavigate={navigate} />}
+      {view === "tree" && <TreePage onNavigate={navigate} />}
+      {currentMovementId && <MovementPage id={currentMovementId} onBack={goBack} onNavigate={navigate} />}
+
+      {/* Footer */}
+      <footer style={{ padding: "2.5rem 4rem", borderTop: `1px solid ${C.divider}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: C.pageBg }}>
+        <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "0.85rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.primaryText }}>Shannon Reibenstein Co.</div>
+        <div style={{ fontFamily: "Georgia, serif", fontSize: "0.78rem", fontStyle: "italic", color: C.magentaDeep }}>Possibilitarian For Hire</div>
+      </footer>
+    </div>
+  );
+}
+
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>
