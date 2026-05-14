@@ -5,26 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work With Me — Shannon Reibenstein Co.</title>
   <meta name="description" content="Possibilitarian For Hire. Contrarian messaging and brand strategy.">
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: #1F1B16; overflow-x: hidden; }
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: #1F1B16; }
-    ::-webkit-scrollbar-thumb { background: #FC19E5; }
-  </style>
   <link rel="canonical" href="https://shannon-reibenstein-co.vercel.app/offers">
   <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/offers">
   <meta property="og:site_name" content="Shannon Reibenstein Co.">
   <meta name="author" content="Shannon Reibenstein">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#1F1B16;overflow-x:hidden}
+    ::-webkit-scrollbar{width:3px}
+    ::-webkit-scrollbar-track{background:#1F1B16}
+    ::-webkit-scrollbar-thumb{background:#FC19E5}
+    input::placeholder,textarea::placeholder{color:rgba(254,252,248,0.3);font-style:italic}
+    select option{background:#1F1B16;color:#FEFCF8}
+  </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
+    const {useState, useEffect, useRef} = React;
+
 
 const COLORS = {
   navy: "#2F364C",
@@ -32,13 +35,13 @@ const COLORS = {
   magenta: "#FC19E5",
   magentaSoft: "#fe66c4",
   magentaDeep: "#9e1460",
-  lightLilac: "#f5eef8",
   nearBlack: "#1F1B16",
   deepPurple: "#532263",
   darkPurple: "#6C0465",
   deepNavy: "#04316C",
   warmGray: "#B3A6A7",
   warmWhite: "#FDFDFD",
+  lightLilac: "#f5eef8",
   offWhite: "#FEFCF8",
 };
 
@@ -96,7 +99,7 @@ function Nav() {
         Shannon Reibenstein Co.
       </div>
       <div style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-        {(()=>{const _n={"Home":"/","About":"/about","Work":"/work","Blog":"/blog"};return ["Home", "About", "Work", "Blog"].map(item => (
+        {(()=>{const _n={"Home": "/", "About": "/about", "Work": "/work", "Blog": "/blog"};return ["Home", "About", "Work", "Blog"].map(item => (
           <a key={item} href={_n[item]||"#"} style={{
             fontFamily: "Georgia, serif", fontSize: "0.85rem",
             color: "#FEFCF8", textDecoration: "none",
@@ -424,7 +427,7 @@ function Offers() {
                       ))}
                     </div>
 
-                    <a href="#inquiry" style={{
+                    <a href="https://shannon-reibenstein-co.vercel.app/offers#inquiry"nquiry" style={{
                       display: "inline-block", marginTop: "2.5rem",
                       background: "transparent",
                       border: `1px solid ${COLORS.magenta}`,
