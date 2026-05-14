@@ -16,6 +16,10 @@
     ::-webkit-scrollbar-track { background: #1F1B16; }
     ::-webkit-scrollbar-thumb { background: #FC19E5; }
   </style>
+  <link rel="canonical" href="https://shannon-reibenstein-co.vercel.app/offers">
+  <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/offers">
+  <meta property="og:site_name" content="Shannon Reibenstein Co.">
+  <meta name="author" content="Shannon Reibenstein">
 </head>
 <body>
   <div id="root"></div>
@@ -92,8 +96,8 @@ function Nav() {
         Shannon Reibenstein Co.
       </div>
       <div style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-        {["Home", "About", "Work", "Blog"].map(item => (
-          <a key={item} href="#" style={{
+        {(()=>{const _n={"Home":"/","About":"/about","Work":"/work","Blog":"/blog"};return ["Home", "About", "Work", "Blog"].map(item => (
+          <a key={item} href={_n[item]||"#"} style={{
             fontFamily: "Georgia, serif", fontSize: "0.85rem",
             color: "#FEFCF8", textDecoration: "none",
             letterSpacing: "0.04em", transition: "color 0.2s",

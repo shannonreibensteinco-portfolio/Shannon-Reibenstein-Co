@@ -16,6 +16,10 @@
     ::-webkit-scrollbar-track { background: #1F1B16; }
     ::-webkit-scrollbar-thumb { background: #FC19E5; }
   </style>
+  <link rel="canonical" href="https://shannon-reibenstein-co.vercel.app/">
+  <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/">
+  <meta property="og:site_name" content="Shannon Reibenstein Co.">
+  <meta name="author" content="Shannon Reibenstein">
 </head>
 <body>
   <div id="root"></div>
@@ -97,8 +101,8 @@ function Nav() {
         Shannon Reibenstein Co.
       </div>
       <div style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-        {["About", "Work", "Offers", "Blog"].map(item => (
-          <a key={item} href="#" style={{
+        {(()=>{const _n={"About":"/about","Work":"/work","Offers":"/offers","Blog":"/blog"};return ["About", "Work", "Offers", "Blog"].map(item => (
+          <a key={item} href={_n[item]||"#"} style={{
             fontFamily: "Georgia, serif", fontSize: "0.85rem",
             color: "#FEFCF8", textDecoration: "none",
             letterSpacing: "0.04em", transition: "color 0.2s",
@@ -107,7 +111,7 @@ function Nav() {
             onMouseLeave={e => e.target.style.color = "#d8dce6"}
           >{item}</a>
         ))}
-        <a href="#" style={{
+        <a href="/offers#inquiry" style={{
           fontFamily: "Georgia, serif", fontSize: "0.85rem",
           color: COLORS.magenta, textDecoration: "none",
           fontStyle: "italic", borderBottom: `1px solid ${COLORS.magenta}`,
@@ -196,7 +200,7 @@ function Hero() {
           </p>
 
           <div style={{ display: "flex", gap: "1.5rem", alignItems: "center", flexWrap: "wrap" }}>
-            <a href="#" style={{
+            <a href="https://shannon-reibenstein-co.vercel.app/work" style={{
               display: "inline-block",
               background: COLORS.magenta, color: COLORS.nearBlack,
               fontFamily: "\'Anton\', Impact, sans-serif",
@@ -213,7 +217,7 @@ function Hero() {
                 e.target.style.boxShadow = "none";
               }}
             >See the Work</a>
-            <a href="#" style={{
+            <a href="https://shannon-reibenstein-co.vercel.app/about" style={{
               fontFamily: "Georgia, serif", fontSize: "0.9rem",
               fontStyle: "italic", color: "#B3A6A7",
               textDecoration: "none",
@@ -342,7 +346,7 @@ function Philosophy() {
           </p>
         </FadeIn>
         <FadeIn delay={0.5}>
-          <a href="#" style={{
+          <a href="https://shannon-reibenstein-co.vercel.app/about" style={{
             fontFamily: "Georgia, serif", fontSize: "0.9rem",
             fontStyle: "italic", color: COLORS.navy, textDecoration: "none",
             borderBottom: `1px solid ${COLORS.navy}55`, paddingBottom: "2px",
@@ -484,7 +488,7 @@ function CaseStudies() {
             marginBottom: "4rem", borderTop: `1px solid ${COLORS.navy}15`, paddingTop: "4rem",
           }}>
             <h2 style={{ fontFamily: "\'Anton\', Impact, sans-serif", fontSize: "clamp(2rem, 4vw, 4rem)", textTransform: "uppercase", color: COLORS.nearBlack, margin: 0, lineHeight: 0.95 }}>Client Work</h2>
-            <a href="#" style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: COLORS.navy, textDecoration: "none", borderBottom: `1px solid ${COLORS.navy}44`, paddingBottom: "2px" }}>View all →</a>
+            <a href="https://shannon-reibenstein-co.vercel.app/work" style={{ fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: COLORS.navy, textDecoration: "none", borderBottom: `1px solid ${COLORS.navy}44`, paddingBottom: "2px" }}>View all →</a>
           </div>
         </FadeIn>
         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
@@ -540,7 +544,7 @@ function PortraitQuote() {
           </div>
         </FadeIn>
         <FadeIn delay={0.45}>
-          <a href="#" style={{ display: "inline-block", marginTop: "2.5rem", fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: "#B3A6A7", textDecoration: "none", borderBottom: `1px solid ${COLORS.offWhite}33`, paddingBottom: "2px", alignSelf: "flex-start", transition: "all 0.2s" }}
+          <a href="https://shannon-reibenstein-co.vercel.app/about" style={{ display: "inline-block", marginTop: "2.5rem", fontFamily: "Georgia, serif", fontSize: "0.9rem", fontStyle: "italic", color: "#B3A6A7", textDecoration: "none", borderBottom: `1px solid ${COLORS.offWhite}33`, paddingBottom: "2px", alignSelf: "flex-start", transition: "all 0.2s" }}
             onMouseEnter={e => { e.target.style.color = COLORS.magenta; e.target.style.borderBottomColor = COLORS.magenta; }}
             onMouseLeave={e => { e.target.style.color = "#B3A6A7"; e.target.style.borderBottomColor = "#B3A6A7"; }}
           >Read the full story →</a>
@@ -566,7 +570,7 @@ function CTA() {
           </p>
         </FadeIn>
         <FadeIn delay={0.35}>
-          <a href="#" style={{ display: "inline-block", background: COLORS.magenta, color: COLORS.nearBlack, fontFamily: "\'Anton\', Impact, sans-serif", fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "1.3rem 4.5rem", textDecoration: "none", transition: "transform 0.2s, box-shadow 0.2s" }}
+          <a href="https://shannon-reibenstein-co.vercel.app/offers#inquiry" style={{ display: "inline-block", background: COLORS.magenta, color: COLORS.nearBlack, fontFamily: "\'Anton\', Impact, sans-serif", fontSize: "1.1rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "1.3rem 4.5rem", textDecoration: "none", transition: "transform 0.2s, box-shadow 0.2s" }}
             onMouseEnter={e => { e.target.style.transform = "translate(-4px,-4px)"; e.target.style.boxShadow = `8px 8px 0 ${COLORS.offWhite}`; }}
             onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "none"; }}
           >Let's Talk</a>
