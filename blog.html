@@ -16,6 +16,10 @@
     ::-webkit-scrollbar-track{background:#1F1B16}
     ::-webkit-scrollbar-thumb{background:#FC19E5}
   </style>
+  <link rel="canonical" href="https://shannon-reibenstein-co.vercel.app/blog">
+  <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/blog">
+  <meta property="og:site_name" content="Shannon Reibenstein Co.">
+  <meta name="author" content="Shannon Reibenstein">
 </head>
 <body>
   <div id="root"></div>
@@ -135,13 +139,13 @@
         <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"1.2rem 4rem",display:"flex",justifyContent:"space-between",alignItems:"center",background:s?`${C.nearBlack}f0`:"transparent",backdropFilter:s?"blur(16px)":"none",borderBottom:s?`1px solid ${C.magenta}30`:"none",transition:"all .4s ease"}}>
           <div style={{fontFamily:"'Anton',Impact,sans-serif",fontSize:"1rem",letterSpacing:"0.1em",textTransform:"uppercase",color:C.offWhite}}>Shannon Reibenstein Co.</div>
           <div style={{display:"flex",gap:"2.5rem",alignItems:"center"}}>
-            {["Home","About","Work","Offers"].map(i=>(
-              <a key={i} href="#" style={{fontFamily:"Georgia,serif",fontSize:"0.85rem",color:C.warmGray,textDecoration:"none",letterSpacing:"0.04em",transition:"color .2s"}}
+            {["Home","About","Work","Offers"].map(i=>{const navMap={"Home":"/","About":"/about","Work":"/work","Offers":"/offers"};return(
+              <a key={i} href={navMap[i]||"#"} style={{fontFamily:"Georgia,serif",fontSize:"0.85rem",color:C.warmGray,textDecoration:"none",letterSpacing:"0.04em",transition:"color .2s"}}
                 onMouseEnter={e=>e.target.style.color=C.magenta}
                 onMouseLeave={e=>e.target.style.color=C.warmGray}
               >{i}</a>
             ))}
-            <a href="#" style={{fontFamily:"Georgia,serif",fontSize:"0.85rem",color:C.magenta,textDecoration:"none",fontStyle:"italic",borderBottom:`1px solid ${C.magenta}`,paddingBottom:"1px"}}>Let's Talk</a>
+            <a href="/offers#inquiry" style={{fontFamily:"Georgia,serif",fontSize:"0.85rem",color:C.magenta,textDecoration:"none",fontStyle:"italic",borderBottom:`1px solid ${C.magenta}`,paddingBottom:"1px"}}>Let's Talk</a>
           </div>
         </nav>
       );

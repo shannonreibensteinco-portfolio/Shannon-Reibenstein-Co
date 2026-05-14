@@ -16,6 +16,10 @@
     ::-webkit-scrollbar-thumb{background:#FC19E5}
     button{font-family:inherit}
   </style>
+  <link rel="canonical" href="https://shannon-reibenstein-co.vercel.app/art-direction">
+  <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/art-direction">
+  <meta property="og:site_name" content="Shannon Reibenstein Co.">
+  <meta name="author" content="Shannon Reibenstein">
 </head>
 <body>
   <div id="root"></div>
@@ -763,7 +767,11 @@ function App() {
           <div style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", fontStyle: "italic", color: C.magentaDeep, marginTop: "0.1rem" }}>Art Direction Reference</div>
         </button>
 
-        <div style={{ display: "flex", gap: "0.5rem" }}>
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <a href="https://shannon-reibenstein-co.vercel.app" style={{ fontFamily: "Georgia, serif", fontSize: "0.78rem", fontStyle: "italic", color: "C.bodyText", textDecoration: "none", padding: "0.5rem 1rem", border: "1px solid #2F364C33", color: "#2F364C", marginRight: "0.5rem", transition: "all 0.2s" }}
+            onMouseEnter={e => e.target.style.borderColor = "#FC19E5"}
+            onMouseLeave={e => e.target.style.borderColor = "#2F364C33"}
+          >← Site</a>
           {[
             { label: "Overview", v: "overview" },
             { label: "Decision Tree", v: "tree" },
