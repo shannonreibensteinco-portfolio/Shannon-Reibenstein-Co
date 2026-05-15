@@ -102,8 +102,8 @@ function Nav() {
         textTransform: "uppercase", color: COLORS.offWhite,
       }}>Shannon Reibenstein Co.</div>
       <div style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-        {["Home", "About", "Work", "Offers"].map(i => {
-              const navMap = { "Home": "/", "About": "/about", "Work": "/work", "Offers": "/offers" }; return (
+            {["Home", "About", "Work","Offers", "Blog"].map(i => {
+              const navMap = { "Home": "/", "About": "/about", "Work":"/work", "Offers": "/offers", "Blog": "/blog" }; return (
                 <a key={i} href={navMap[i] || "#"} style={{ fontFamily: "Georgia,serif", fontSize: "0.85rem", color: COLORS.warmGray, textDecoration: "none", letterSpacing: "0.04em", transition: "color .2s" }}
                   onMouseEnter={e => e.target.style.color = COLORS.magenta}
                   onMouseLeave={e => e.target.style.color = COLORS.warmGray}

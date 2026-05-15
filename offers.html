@@ -132,8 +132,8 @@
             Shannon Reibenstein Co.
           </div>
           <div style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-            {["Home", "About", "Work", "Offers"].map(i => {
-              const navMap = { "Home": "/", "About": "/about", "Work": "/work", "Offers": "/offers" }; return (
+            {["Home", "About", "Work","Offers", "Blog"].map(i => {
+              const navMap = { "Home": "/", "About": "/about", "Work":"/work", "Offers": "/offers", "Blog": "/blog" }; return (
                 <a key={i} href={navMap[i] || "#"} style={{ fontFamily: "Georgia,serif", fontSize: "0.85rem", color: COLORS.warmGray, textDecoration: "none", letterSpacing: "0.04em", transition: "color .2s" }}
                   onMouseEnter={e => e.target.style.color = COLORS.magenta}
                   onMouseLeave={e => e.target.style.color = COLORS.warmGray}
@@ -597,7 +597,18 @@
                 fontFamily: "Georgia, serif", fontSize: "1rem", lineHeight: 1.75,
                 color: "#B3A6A7", margin: "0 0 4rem 0",
               }}>
-                No pitch decks. No portfolio reviews before we talk. Just tell me what's happening and let's figure out together whether we're the right fit.
+                No pitch decks. No portfolio reviews before we talk. Just tell me what's happening and let's figure out together whether we're the right fit.&nbsp;
+                
+                <a href="/art-direction" style={{
+                  fontFamily: "Georgia, serif", fontSize: "0.9rem",
+                  fontStyle: "italic", color: "#B3A6A7",
+                  textDecoration: "none",
+                  borderBottom: `1px solid ${COLORS.offWhite}22`,
+                  paddingBottom: "1px", transition: "all 0.2s",
+                }}
+                  onMouseEnter={e => { e.target.style.color = COLORS.magenta; e.target.style.borderBottomColor = COLORS.magenta; }}
+                  onMouseLeave={e => { e.target.style.color = "#B3A6A7"; e.target.style.borderBottomColor = "#B3A6A7"; }}
+                >Curious about how vibe first branding works?</a>
               </p>
             </FadeIn>
 

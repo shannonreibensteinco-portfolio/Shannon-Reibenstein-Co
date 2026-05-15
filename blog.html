@@ -166,8 +166,8 @@
         <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "1.2rem 4rem", display: "flex", justifyContent: "space-between", alignItems: "center", background: s ? `${C.nearBlack}f0` : "transparent", backdropFilter: s ? "blur(16px)" : "none", borderBottom: s ? `1px solid ${C.magenta}30` : "none", transition: "all .4s ease" }}>
           <div style={{ fontFamily: "'Anton',Impact,sans-serif", fontSize: "1rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.offWhite }}>Shannon Reibenstein Co.</div>
           <div style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
-            {["Home", "About", "Work", "Offers"].map(i => {
-              const navMap = { "Home": "/", "About": "/about", "Work": "/work", "Offers": "/offers" }; return (
+            {["Home", "About", "Work","Offers", "Blog"].map(i => {
+              const navMap = { "Home": "/", "About": "/about", "Work":"/work", "Offers": "/offers", "Blog": "/blog" }; return (
                 <a key={i} href={navMap[i] || "#"} style={{ fontFamily: "Georgia,serif", fontSize: "0.85rem", color: C.warmGray, textDecoration: "none", letterSpacing: "0.04em", transition: "color .2s" }}
                   onMouseEnter={e => e.target.style.color = C.magenta}
                   onMouseLeave={e => e.target.style.color = C.warmGray}
