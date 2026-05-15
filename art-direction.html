@@ -20,6 +20,8 @@
   <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/art-direction">
   <meta property="og:site_name" content="Shannon Reibenstein Co.">
   <meta name="author" content="Shannon Reibenstein">
+  <link rel="canonical" href="https://shannon-reibenstein-co.vercel.app/art-direction">
+  <meta property="og:url" content="https://shannon-reibenstein-co.vercel.app/art-direction">
 </head>
 <body>
   <div id="root"></div>
@@ -42,6 +44,8 @@ const C = {
   darkPurple:  "#6C0465",
   warmWhite:   "#FDFDFD",
   divider:     "#2F364C22",
+  lightPink:   "#F4ECF0",
+  lightGray: "#c2bfc7"
 };
 
 // ─── Movement data ───────────────────────────────────────────────────────────
@@ -277,11 +281,11 @@ const QUESTIONS = [
     question: "What do you want someone to feel in the first three seconds?",
     sub: "Before they've read a word. Trust your gut.",
     options: [
-      { label: "Power. Inevitability. Like this was always going to exist.", value: "q1_power" },
-      { label: "Like they found something rare. Specific. Not mass-produced.", value: "q1_rare" },
-      { label: "Something they can't immediately name — curiosity, unease, wonder.", value: "q1_unnamed" },
-      { label: "Like the whole category is being questioned.", value: "q1_questioned" },
-      { label: "Built to last. Nothing accidental. Craft is visible.", value: "q1_lasting" },
+      { label: "Power. Inevitability. Like this was always going to exist.", value: "q2_power" },
+      { label: "Like they found something rare. Specific. Not mass-produced.", value: "q2_rare" },
+      { label: "Something they can't immediately name — curiosity, unease, wonder.", value: "q2_unnamed" },
+      { label: "Like the whole category is being questioned.", value: "q2_questioned" },
+      { label: "Built to last. Nothing accidental. Craft is visible.", value: "q2_lasting" },
     ],
   },
   {
@@ -378,7 +382,7 @@ function MovementPage({ id, onBack, onNavigate }) {
 
   if (isHybrid && h) {
     return (
-      <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+      <div style={{ background: C.lightGray, minHeight: "100vh" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto", padding: "6rem 4rem" }}>
           <button onClick={onBack} style={{ fontFamily: "Georgia, serif", fontSize: "0.8rem", fontStyle: "italic", color: C.bodyText, background: "transparent", border: "none", cursor: "pointer", marginBottom: "3rem", padding: 0 }}>← Back to tree</button>
           <div style={{ fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.15em", textTransform: "uppercase", color: C.magentaDeep, marginBottom: "1rem" }}>Hybrid Influence</div>
@@ -393,7 +397,7 @@ function MovementPage({ id, onBack, onNavigate }) {
   if (!m) return null;
 
   return (
-    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+    <div style={{ background: C.lightGray, minHeight: "100vh" }}>
 
       {/* Hero */}
       <div style={{ background: m.accentColor, padding: "6rem 4rem 4rem", position: "relative", overflow: "hidden" }}>
@@ -450,7 +454,7 @@ function MovementPage({ id, onBack, onNavigate }) {
         <div style={{ display: "flex", flexDirection: "column", gap: "2px", background: C.divider, marginBottom: "6rem" }}>
           {m.influences.map((inf, i) => (
             <FadeIn key={i} delay={i * 0.06}>
-              <div style={{ background: i % 2 === 0 ? C.pageBg : C.cardBg, padding: "2.5rem 3rem", display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "2.5rem", alignItems: "start" }}>
+              <div style={{ background: i % 2 === 0 ? C.lightGray : C.cardBg, padding: "2.5rem 3rem", display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "2.5rem", alignItems: "start" }}>
                 <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "2rem", color: `${m.accentColor}25`, lineHeight: 1, minWidth: "3rem", textAlign: "center" }}>{String(i + 1).padStart(2, "0")}</div>
                 <div>
                   <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "1rem", textTransform: "uppercase", letterSpacing: "0.04em", color: C.primaryText, marginBottom: "0.2rem" }}>{inf.artist}</div>
@@ -546,7 +550,7 @@ function OverviewPage({ onNavigate }) {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+    <div style={{ background: C.lightGray, minHeight: "100vh" }}>
 
       {/* Hero */}
       <div style={{ padding: "8rem 4rem 6rem", position: "relative", overflow: "hidden", borderBottom: `1px solid ${C.divider}` }}>
@@ -586,7 +590,7 @@ function OverviewPage({ onNavigate }) {
                 </div>
 
                 {/* Body */}
-                <div style={{ background: hovered === id ? C.cardBg : C.pageBg, padding: "1.5rem 2rem", flex: 1, transition: "background 0.25s", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                <div style={{ background: hovered === id ? C.cardBg : C.lightGray, padding: "1.5rem 2rem", flex: 1, transition: "background 0.25s", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                   <p style={{ fontFamily: "Georgia, serif", fontSize: "0.82rem", lineHeight: 1.65, color: C.bodyText, margin: "0 0 1.5rem 0" }}>
                     {m.core.substring(0, 100)}…
                   </p>
@@ -648,7 +652,7 @@ function TreePage({ onNavigate }) {
   const goBack = () => { if (result) setResult(null); else if (history.length > 1) setHistory(h => h.slice(0, -1)); };
 
   return (
-    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+    <div style={{ background: C.lightGray, minHeight: "100vh" }}>
       <div style={{ maxWidth: "860px", margin: "0 auto", padding: "6rem 4rem" }}>
 
         {/* Progress */}
@@ -709,7 +713,7 @@ function TreePage({ onNavigate }) {
                   onClick={() => handleAnswer(opt.value)}
                   onMouseEnter={() => setHovered(opt.value)}
                   onMouseLeave={() => setHovered(null)}
-                  style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1.8rem 2rem", background: hovered === opt.value ? `${C.magenta}10` : C.pageBg, border: "none", borderLeft: `3px solid ${hovered === opt.value ? C.magenta : "transparent"}`, cursor: "pointer", transition: "all 0.2s", textAlign: "left" }}
+                  style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1.8rem 2rem", background: hovered === opt.value ? `${C.magenta}10` : C.lightGray, border: "none", borderLeft: `3px solid ${hovered === opt.value ? C.magenta : "transparent"}`, cursor: "pointer", transition: "all 0.2s", textAlign: "left" }}
                 >
                   <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "1.5rem", color: `${C.magenta}${hovered === opt.value ? "cc" : "33"}`, lineHeight: 1, minWidth: "2rem", textAlign: "center", transition: "color 0.2s" }}>
                     {String.fromCharCode(65 + i)}
@@ -753,15 +757,15 @@ function App() {
         @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background: ${C.pageBg}; }
+        body { background: ${C.lightGray}; }
         ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: ${C.pageBg}; }
+        ::-webkit-scrollbar-track { background: ${C.lightGray}; }
         ::-webkit-scrollbar-thumb { background: ${C.magenta}; }
         button { font-family: inherit; }
       `}</style>
 
       {/* Sticky nav */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 100, padding: "1.2rem 4rem", display: "flex", justifyContent: "space-between", alignItems: "center", background: scrolled ? `${C.pageBg}f0` : C.pageBg, backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${C.divider}`, transition: "all 0.3s" }}>
+      <nav style={{ position: "sticky", top: 0, zIndex: 100, padding: "1.2rem 4rem", display: "flex", justifyContent: "space-between", alignItems: "center", background: scrolled ? `${C.lightGray}` : C.lightGray, backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${C.divider}`, transition: "all 0.3s" }}>
         <button onClick={() => setView("overview")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, textAlign: "left" }}>
           <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "0.9rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.primaryText }}>Shannon Reibenstein Co.</div>
           <div style={{ fontFamily: "Georgia, serif", fontSize: "0.68rem", fontStyle: "italic", color: C.magentaDeep, marginTop: "0.1rem" }}>Art Direction Reference</div>
@@ -795,7 +799,7 @@ function App() {
       {currentMovementId && <MovementPage id={currentMovementId} onBack={goBack} onNavigate={navigate} />}
 
       {/* Footer */}
-      <footer style={{ padding: "2.5rem 4rem", borderTop: `1px solid ${C.divider}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: C.pageBg }}>
+      <footer style={{ padding: "2.5rem 4rem", borderTop: `1px solid ${C.divider}`, display: "flex", justifyContent: "space-between", alignItems: "center", background: C.lightGray }}>
         <div style={{ fontFamily: "'Anton', Impact, sans-serif", fontSize: "0.85rem", letterSpacing: "0.1em", textTransform: "uppercase", color: C.primaryText }}>Shannon Reibenstein Co.</div>
         <div style={{ fontFamily: "Georgia, serif", fontSize: "0.78rem", fontStyle: "italic", color: C.magentaDeep }}>Possibilitarian For Hire</div>
       </footer>

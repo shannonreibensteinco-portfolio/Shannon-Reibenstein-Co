@@ -28,7 +28,7 @@ Possibilitarian For Hire. Brand voice strategy and contrarian messaging.
 4. Leave all settings as default — Vercel detects static HTML automatically
 5. Click Deploy
 
-Every push to `main` auto-deploys.
+Live in under 60 seconds. Every push to `main` auto-deploys.
 
 ---
 
